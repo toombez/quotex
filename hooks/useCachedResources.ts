@@ -44,7 +44,7 @@ export default function useCachedResources() {
     }
 
     useEffect(() => {
-        awaitTasks(loadFontsTask, emptyTask(10000), emptyTask(5000))
+        awaitTasks(loadFontsTask, emptyTask(200), emptyTask(1000), emptyTask(500), emptyTask(2000))
     }, [])
 
     return {
