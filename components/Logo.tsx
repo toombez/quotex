@@ -25,7 +25,7 @@ const LogoIcon: React.FC<LogoIconProps> = ({
         { Platform.OS === 'web'
             ? <Image
                 source={require('../assets/images/logo.svg')}
-                style={{ ...style.logo__icon}}
+                style={style.logo__icon}
             />
             : <LogoSvg />
         }
@@ -34,12 +34,14 @@ const LogoIcon: React.FC<LogoIconProps> = ({
 
 interface LogoProps {
     withText?: boolean
+    viewStyle?: ViewProps['style']
 }
 
 const Logo: React.FC<LogoProps> = ({
     withText = false,
+    viewStyle,
 }) => {
-    return <View style={style.logo}>
+    return <View style={[style.logo, viewStyle]}>
         <LogoIcon viewStyle={{ marginBottom: withText ? 16 : undefined }} />
         { withText && <LogoText />}
     </View>
