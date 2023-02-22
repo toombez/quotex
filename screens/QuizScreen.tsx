@@ -76,6 +76,18 @@ const QuizScreenStep: React.FC<QuizScreenStepProps> = ({
     </View>
 }
 
+const QuizScreenFinalStep: React.FC = () => {
+    return <View>
+        <Text>
+            There are 100s of app out there but none has surpassed the trading so easy....with efforts of keeping it simple and realistic the app has given people support for learning and earning in the world of trading...I hope the app will enhance more UI & UX for latest updates and for freebies as well ^-^👍🏻
+        </Text>
+
+        <QuizScreenButton
+            title="Continue"
+        />
+    </View>
+}
+
 interface QuizScreenQuestion {
     question: QuizScreenStepProps['question']
     answers: QuizScreenStepProps['answers']
@@ -111,15 +123,18 @@ const QuizScreen: React.FC =  () => {
     const [progress, setProgress] = useState(1 / QuizScreenQuestions.length)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [answers, setAnswers] = useState<AnswersValuesMap>(new Map())
+    const [isShowFinalStep, setIsShowFinalStep] = useState(false)
 
     const currentQuestion = QuizScreenQuestions[currentQuestionIndex]
+    const isQuizFinished = currentQuestionIndex === QuizScreenQuestions.length - 1
 
     function onAnswerHandler(answer: QuizScreenStepAnswer) {
         answers.set(currentQuestionIndex, answer.value)
 
-        if (currentQuestionIndex === QuizScreenQuestions.length - 1) {
+        if (isQuizFinished) {
             console.log(answers)
 
+            setIsShowFinalStep(true)
             return
         }
 
@@ -130,11 +145,17 @@ const QuizScreen: React.FC =  () => {
     return <View
         style={style.quizScreen}
     >
-        <QuizScreenStep
-            question={currentQuestion.question}
-            answers={currentQuestion.answers}
-            onAnswer={onAnswerHandler}
-        />
+        { isShowFinalStep
+            ? <QuizScreenFinalStep />
+            : <QuizScreenStep
+                question={currentQuestion.question}
+                answers={currentQuestion.answers}
+                onAnswer={onAnswerHandler}
+            />
+        }
+
+
+
         <Progress.Bar
             progress={progress}
 
