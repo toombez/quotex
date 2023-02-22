@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ButtonProps, Pressable, StyleSheet, Text, View, ViewProps } from "react-native"
+import * as Progress from 'react-native-progress'
 
 interface QuizScreenButtonProps {
     title: string
@@ -75,8 +76,68 @@ const QuizScreenStep: React.FC<QuizScreenStepProps> = ({
     </View>
 }
 
+interface QuizScreenQuestion {
+    question: QuizScreenStepProps['question']
+    answers: QuizScreenStepProps['answers']
+}
+
+const QuizScreenQuestions: QuizScreenQuestion[] = [
+    {
+        question: 'Do you have Quotex account?',
+        answers: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false },
+        ]
+    },
+    {
+        question: 'What is your trading experience?',
+        answers: [
+            { label: 'Never traded before', value: true },
+            { label: 'Never traded before', value: false },
+        ]
+    },
+    {
+        question: 'What are you looking for the most?',
+        answers: [
+            { label: 'Trading Signals', value: true },
+            { label: 'Analytics and Ideas', value: false },
+        ]
+    },
+]
+
 const QuizScreen: React.FC =  () => {
-    return <View></View>
+    const [progress, setProgress] = useState(1 / QuizScreenQuestions.length)
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+
+    const currentQuestion = QuizScreenQuestions[currentQuestionIndex]
+
+    function onAnswerHandler(answer: QuizScreenStepAnswer) {
+        if (currentQuestionIndex === QuizScreenQuestions.length - 1) return
+
+        setProgress((v) => v + 1 / QuizScreenQuestions.length)
+        setCurrentQuestionIndex((i) => i + 1)
+    }
+
+    return <View
+        style={style.quizScreen}
+    >
+        <QuizScreenStep
+            question={currentQuestion.question}
+            answers={currentQuestion.answers}
+            onAnswer={onAnswerHandler}
+        />
+        <Progress.Bar
+            progress={progress}
+
+            height={4}
+            borderRadius={8}
+            unfilledColor='#F4F6FA'
+            color="#DE584A"
+            borderWidth={0}
+            width={null}
+            style={style.bar}
+        />
+    </View>
 }
 
 const buttonStyle = StyleSheet.create({
@@ -109,6 +170,16 @@ const QuizScreenStepStyle = StyleSheet.create({
 })
 
 const style = StyleSheet.create({
+    quizScreen: {
+        padding: 16,
+        display: 'flex',
+        justifyContent: 'flex-end',
+        flexDirection: 'column',
+        height: '100%',
+    },
+    bar: {
+        marginTop: 44,
+    }
 })
 
 export default QuizScreen
