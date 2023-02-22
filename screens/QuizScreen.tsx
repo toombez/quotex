@@ -105,14 +105,23 @@ const QuizScreenQuestions: QuizScreenQuestion[] = [
     },
 ]
 
+type AnswersValuesMap = Map<number, QuizScreenStepAnswer['value']>
+
 const QuizScreen: React.FC =  () => {
     const [progress, setProgress] = useState(1 / QuizScreenQuestions.length)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+    const [answers, setAnswers] = useState<AnswersValuesMap>(new Map())
 
     const currentQuestion = QuizScreenQuestions[currentQuestionIndex]
 
     function onAnswerHandler(answer: QuizScreenStepAnswer) {
-        if (currentQuestionIndex === QuizScreenQuestions.length - 1) return
+        answers.set(currentQuestionIndex, answer.value)
+
+        if (currentQuestionIndex === QuizScreenQuestions.length - 1) {
+            console.log(answers)
+
+            return
+        }
 
         setProgress((v) => v + 1 / QuizScreenQuestions.length)
         setCurrentQuestionIndex((i) => i + 1)
