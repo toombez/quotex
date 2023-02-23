@@ -21,7 +21,6 @@ import LinkingConfiguration from './LinkingConfiguration'
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
     return <NavigationContainer
         linking={LinkingConfiguration}
-        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
         <RootNavigator />
     </NavigationContainer>
@@ -34,7 +33,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
-  return <Stack.Navigator>
+  return <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -55,7 +54,7 @@ function BottomTabNavigator() {
     return <BottomTab.Navigator
         initialRouteName="SignalsScreen"
         screenOptions={{
-            tabBarActiveTintColor: Colors[colorScheme].tint,
+            // tabBarActiveTintColor: Colors[colorScheme].tint,
         }}
     >
         <BottomTab.Screen
