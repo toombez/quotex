@@ -33,7 +33,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
-  return <Stack.Navigator screenOptions={{ headerShown: false }}>
+  return <Stack.Navigator>
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -54,6 +54,7 @@ function BottomTabNavigator() {
     return <BottomTab.Navigator
         initialRouteName="SignalsScreen"
         screenOptions={{
+            headerShown: false
             // tabBarActiveTintColor: Colors[colorScheme].tint,
         }}
     >
