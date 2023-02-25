@@ -1,7 +1,7 @@
-import { Text } from "react-native"
+import { Image, Platform, Text, View } from "react-native"
 import { Path, Rect, Svg, SvgProps } from "react-native-svg"
-import { View } from "./Themed"
 import { useTime } from '../hooks/useTime'
+import SignalIcon from '../assets/images/signalIcon.svg'
 
 type SignalDirection = 'up' | 'down'
 
@@ -58,8 +58,9 @@ const SignalIndicator: React.FC<SignalIndicatorProps> = ({
                 fontWeight: '500',
                 lineHeight: 14 * 1.3,
                 marginRight: 9,
+                color: '#1F1F1F',
             }}
-        >
+            >
             {hours}:{minutes}
         </Text>
         <SignalSvg
@@ -70,9 +71,64 @@ const SignalIndicator: React.FC<SignalIndicatorProps> = ({
     </View>
 }
 
+interface SignalProps {
+    currency: string
+    time?: number
+    direction?: SignalDirection
+}
+const Signal: React.FC<SignalProps> = ({
+    currency,
+    direction,
+    time,
+}) => {
+    const isEnabled = direction && time
+
+    return <View
+        style={{
+            backgroundColor: '#F4F6FA',
+            padding: 12,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        }}
+    >
+        <View
+            style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                opacity: isEnabled ? 1 : 0.3,
+            }}
+        >
+            {
+                Platform.OS === 'web'
+                ? <Image
+                    source={require('../assets/images/signalIcon.svg')}
+                    style={{ width: 32, height: 32 }}
+                />
+                : <SignalIcon />
+            }
+            <Text
+                style={{
+                    color: '#1F1F1F',
+                    fontSize: 16,
+                    fontWeight: '600',
+                    marginLeft: 10,
+                }}
+                >
+                { currency }
+            </Text>
+        </View>
+
+        { isEnabled && <SignalIndicator direction={direction} time={time} /> }
+    </View>
+}
+
+export default Signal
 export {
     SignalSvgProps,
     SignalSvg,
     SignalIndicatorProps,
     SignalIndicator,
+    SignalProps,
+    Signal,
 }
