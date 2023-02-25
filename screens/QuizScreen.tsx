@@ -1,7 +1,10 @@
-import { useState } from "react"
+import { useNavigation } from "@react-navigation/native"
+import { useEffect, useState } from "react"
 import { ButtonProps, Pressable, StyleSheet, Text, View, ViewProps } from "react-native"
 import * as Progress from 'react-native-progress'
+import Logo from "../components/Logo"
 import QuizButton from "../components/QuizButton"
+import { RootTabScreenProps } from "../types"
 
 interface QuizScreenStepAnswer {
     label: string
@@ -44,14 +47,28 @@ const QuizScreenStep: React.FC<QuizScreenStepProps> = ({
     </View>
 }
 
-const QuizScreenFinalStep: React.FC = () => {
+interface QuizScreenFinalStepProps {
+    onContinue?: () => void
+}
+
+const QuizScreenFinalStep: React.FC<QuizScreenFinalStepProps> = ({
+    onContinue,
+}) => {
+    const onPressHandler = () => {
+        if (onContinue) {
+            onContinue()
+        }
+    }
+
     return <View>
         <Text>
+
             There are 100s of app out there but none has surpassed the trading so easy....with efforts of keeping it simple and realistic the app has given people support for learning and earning in the world of trading...I hope the app will enhance more UI & UX for latest updates and for freebies as well ^-^👍🏻
         </Text>
 
         <QuizButton
             title="Continue"
+            onPress={onContinue}
         />
     </View>
 }
@@ -87,11 +104,12 @@ const QuizScreenQuestions: QuizScreenQuestion[] = [
 
 type AnswersValuesMap = Map<number, QuizScreenStepAnswer['value']>
 
-const QuizScreen: React.FC =  () => {
+const QuizScreen: React.FC<RootTabScreenProps<'Quiz'>> =  ({
+    navigation,
+}) => {
     const [progress, setProgress] = useState(1 / QuizScreenQuestions.length)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [answers, setAnswers] = useState<AnswersValuesMap>(new Map())
-    const [isShowFinalStep, setIsShowFinalStep] = useState(false)
 
     const currentQuestion = QuizScreenQuestions[currentQuestionIndex]
     const isQuizFinished = currentQuestionIndex === QuizScreenQuestions.length - 1
@@ -102,7 +120,8 @@ const QuizScreen: React.FC =  () => {
         if (isQuizFinished) {
             console.log(answers)
 
-            setIsShowFinalStep(true)
+            navigation.navigate('SignalsScreen')
+
             return
         }
 
@@ -113,14 +132,22 @@ const QuizScreen: React.FC =  () => {
     return <View
         style={style.quizScreen}
     >
-        { isShowFinalStep
-            ? <QuizScreenFinalStep />
-            : <QuizScreenStep
-                question={currentQuestion.question}
-                answers={currentQuestion.answers}
-                onAnswer={onAnswerHandler}
-            />
-        }
+        <Logo
+            viewStyle={{
+                width: 60,
+                height: 60,
+                transform: [{ translateX: -30 }],
+                position: 'absolute',
+                top: 64,
+                left: '50%'
+            }}
+        />
+
+        <QuizScreenStep
+            question={currentQuestion.question}
+            answers={currentQuestion.answers}
+            onAnswer={onAnswerHandler}
+        />
 
         <Progress.Bar
             progress={progress}
