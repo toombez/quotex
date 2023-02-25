@@ -80,6 +80,7 @@ const style = StyleSheet.create({
         fontSize: 18,
         fontWeight: '800',
         textAlign: 'center',
+        marginTop: 17
     },
     timerTitle: {
         color: '#818181',
