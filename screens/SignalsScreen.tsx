@@ -1,109 +1,45 @@
-import { Image, StyleSheet, Text, Platform } from "react-native"
+import { Image, StyleSheet, Text, Platform, useColorScheme } from "react-native"
 import { useState } from 'react'
 import { View } from "../components/Themed"
 import Timer from "../components/Timer"
 import { RootTabScreenProps } from "../types"
 
-import ArrowUp from '../assets/images/arrowUp.svg'
-import ArrowDown from '../assets/images/arrowDown.svg'
-import SignalIconSvg from '../assets/images/signalIcon.svg'
-
-type SignalDirection = 'up' | 'down'
-
-interface SignalDirectionIndicatorProps {
-    direction: SignalDirection
-}
-
-const SignalDirectionIndicator: React.FC<SignalDirectionIndicatorProps> = ({
-    direction,
-}) => {
-    const style = { width: 24, height: 24 }
-
-    const upIcon = <Image
-        source={require('../assets/images/arrowUp.svg')}
-        style={style}
-    />
-    const downIcon = <Image
-        source={require('../assets/images/arrowDown.svg')}
-        style={style}
-    />
-
-    return <View>
-        { Platform.OS === 'web'
-            ? direction === 'up' ? upIcon : downIcon
-            : direction === 'up' ? <ArrowUp /> : <ArrowDown />
-        }
-    </View>
-}
-
-interface SignalIndicatorProps {
-    time: number
-    direction: SignalDirection
-}
-
-const SignalIndicator: React.FC<SignalIndicatorProps> = ({
-    time,
-    direction,
-}) => {
-    const totalMinutes = Math.floor(time / 60)
-
-    const minutes = totalMinutes % 60
-    const hours = Math.floor(totalMinutes / 60)
-
-    return <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ marginRight: 9, fontSize: 14, fontWeight: '500' }}>
-            {hours}:{minutes}
-        </Text>
-
-        <SignalDirectionIndicator direction={direction} />
-    </View>
-}
-
-interface SignalProps {
-    direction: SignalDirection
-    time: number
-    currency: string
-}
-
-const Signal: React.FC<SignalProps> = ({
-    currency,
-    direction,
-    time,
-}) => {
-    const webIcon = <Image
-        source={require('../assets/images/signalIcon.svg')}
-        style={{ width: 32, height: 32 }}
-    />
-
-    return <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 }}>
-            { Platform.OS === 'web'
-                ? webIcon
-                : <SignalIconSvg />
-            }
-            <Text style={{ marginLeft: 10 }}>
-                { currency }
-            </Text>
-        </View>
-
-        <SignalIndicator direction={direction} time={time} />
-    </View>
-}
+import Signal, { SignalProps } from "../components/Signal"
 
 const SignalsScreen: React.FC<RootTabScreenProps<'SignalsScreen'>> = ({
     navigation,
 }) => {
-    const TIMER_TIME = 120
+    const TIMER_TIME = 10
 
-    const [signals, setSignals] = useState<
-        { direction: SignalDirection, time: number, currency: string }[]
-    >([
+    const [signals, setSignals] = useState<SignalProps[]>([
         { currency: 'EUR/CAD', direction: 'down', time: 1000 },
         { currency: 'EUR/GBR', direction: 'up', time: 1000 },
+        { currency: 'EUR/GBR', direction: 'up', time: 1000 },
+        { currency: 'EUR/GBR', direction: 'up', time: 1000 },
+        { currency: 'EUR/GBR' },
+        { currency: 'EUR/GBR' },
+        { currency: 'EUR/GBR' },
     ])
 
-    function changeSignalsDirection() {
+    function updateSignals(signals: SignalProps[]) {
+        return signals.map(s => {
+            const { currency, direction, time } = s
 
+            const newTime = time ? time + TIMER_TIME : time
+            const newDirection: SignalProps['direction'] = direction
+                ? (direction === 'down' ? 'up' : 'down')
+                : direction
+
+            return {
+                currency,
+                time: newTime,
+                direction: newDirection,
+            }
+        })
+    }
+
+    const onTimerEndHandler = () => {
+        setSignals((s) => updateSignals(s))
     }
 
     return <View style={style.screen} >
@@ -117,16 +53,12 @@ const SignalsScreen: React.FC<RootTabScreenProps<'SignalsScreen'>> = ({
             initialSeconds={TIMER_TIME}
             isResetOnEnd
             viewStyle={style.timer}
-            onTimerEnd={() => {
-                setSignals((v) => v.map(s => ({
-                    ...s,
-                    direction: s.direction === 'down' ? 'up' : 'down',
-                    time: s.time + TIMER_TIME,
-                })))
-            }}
+            onTimerEnd={onTimerEndHandler}
         />
 
-        { signals.map((s) => <Signal {...s} />) }
+        <View style={{ width: '100%' }}>
+            { signals.map((s, i) => <Signal {...s} key={i} />) }
+        </View>
     </View>
 }
 
@@ -136,6 +68,8 @@ const style = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         padding: 16,
+        height: '100%',
+        width: '100%',
     },
     timer: {
         marginTop: 4,
@@ -158,3 +92,5 @@ const style = StyleSheet.create({
 })
 
 export default SignalsScreen
+export {
+}
