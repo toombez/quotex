@@ -10,13 +10,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { ColorSchemeName } from 'react-native'
 
-import Colors from '../constants/Colors'
-import useColorScheme from '../hooks/useColorScheme'
-import ModalScreen from '../screens/ModalScreen'
-import NotFoundScreen from '../screens/NotFoundScreen'
 import SignalsScreen from '../screens/SignalsScreen'
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types'
-import LinkingConfiguration from './LinkingConfiguration'
+import Colors from '../constants/Colors';
+import useColorScheme from '../hooks/useColorScheme';
+import ModalScreen from '../screens/ModalScreen';
+import NotFoundScreen from '../screens/NotFoundScreen';
+import QuizScreen from '../screens/QuizScreen';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
     return <NavigationContainer
@@ -53,12 +54,19 @@ function BottomTabNavigator() {
     const colorScheme = useColorScheme();
 
     return <BottomTab.Navigator
-        initialRouteName="SignalsScreen"
+        initialRouteName="Quiz"
         screenOptions={{
-            headerShown: false,
-            // tabBarActiveTintColor: Colors[colorScheme].tint,
-        }}
-    >
+                headerShown: false,
+                // tabBarActiveTintColor: Colors[colorScheme].tint,
+        }}>
+        <BottomTab.Screen
+            name="Quiz"
+            component={QuizScreen}
+            options={{
+            title: 'Quiz',
+            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            }}
+        />
         <BottomTab.Screen
             name="SignalsScreen"
             component={SignalsScreen}

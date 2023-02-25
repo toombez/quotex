@@ -20,12 +20,17 @@ const linking: LinkingOptions<RootStackParamList> = {
                             SignalsScreen: 'signals',
                         }
                     },
+                    Quiz: {
+                        screens: {
+                            QuizScreen: 'quiz',
+                        },
+                    },
                 },
             },
             Modal: 'modal',
             NotFound: '*',
         },
     },
-};
+}
 
 export default linking
