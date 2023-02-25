@@ -43,8 +43,8 @@ const Logo: React.FC<LogoProps> = ({
         <LogoSvg
             style={{
                 marginBottom: withText ? 16 : undefined,
-                width: 117,
-                height: 137,
+                width: withText ? 117 : '100%',
+                height: withText ? 137 : '100%',
             }}
         />
         { withText && <LogoText />}
