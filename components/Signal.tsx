@@ -2,6 +2,7 @@ import { Image, Platform, Text, View } from "react-native"
 import { Path, Rect, Svg, SvgProps } from "react-native-svg"
 import { useTime } from '../hooks/useTime'
 import SignalIcon from '../assets/images/signalIcon.svg'
+import colors from "../constants/Colors"
 
 type SignalDirection = 'up' | 'down'
 
@@ -40,7 +41,10 @@ const SignalIndicator: React.FC<SignalIndicatorProps> = ({
     direction,
     time,
 }) => {
-    const circleColor = direction === 'up' ? '#35B972' : '#FF6151'
+    const circleColor = direction === 'up'
+        ? colors.greenSignal
+        : colors.redSignal
+
     const {
         formattedMinutes: minutes,
         formattedHours: hours,

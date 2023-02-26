@@ -5,6 +5,7 @@ import {
     StyleSheet,
 } from 'react-native'
 import { Path, Svg, SvgProps } from 'react-native-svg'
+import colors from '../constants/Colors'
 
 const LogoText: React.FC = () => {
     return <Text style={style.logo__text}>
@@ -18,7 +19,7 @@ interface LogoSvgProps {
 }
 
 const LogoSvg: React.FC<LogoSvgProps> = ({
-    color = '#921C2E',
+    color = colors.logo,
     style,
 }) => {
     return <Svg viewBox='0 0 117 134' fill="none" style={style} >
