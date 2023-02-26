@@ -33,7 +33,7 @@ export default function Navigation() {
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
-  return <Stack.Navigator initialRouteName='Quiz'>
+  return <Stack.Navigator initialRouteName='Quiz' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
         <Stack.Screen name="Quiz" component={QuizScreen} />
