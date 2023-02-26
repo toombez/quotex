@@ -1,6 +1,6 @@
-import { Image, StyleSheet, Text, Platform, useColorScheme } from "react-native"
+import { Image, StyleSheet, Text } from "react-native"
 import { useState } from 'react'
-import { View } from "../components/Themed"
+import { View } from "react-native"
 import Timer from "../components/Timer"
 import { RootTabScreenProps } from "../types"
 

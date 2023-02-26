@@ -12,17 +12,15 @@ import { ColorSchemeName } from 'react-native'
 
 import SignalsScreen from '../screens/SignalsScreen'
 import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import QuizScreen from '../screens/QuizScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
     return <NavigationContainer
         linking={LinkingConfiguration}
-        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
         <RootNavigator />
     </NavigationContainer>
@@ -52,12 +50,9 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>()
 
 function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
-
     return <BottomTab.Navigator
         screenOptions={{
             headerShown: false,
-            // tabBarActiveTintColor: Colors[colorScheme].tint,
         }}>
         <BottomTab.Screen
             name="SignalsScreen"
