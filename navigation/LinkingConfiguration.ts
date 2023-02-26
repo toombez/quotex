@@ -26,6 +26,6 @@ const linking: LinkingOptions<RootStackParamList> = {
             NotFound: '*',
         },
     },
-};
+}
 
 export default linking
