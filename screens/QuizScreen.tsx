@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native"
-import { useEffect, useState } from "react"
-import { ButtonProps, Pressable, StyleSheet, Text, View, ViewProps } from "react-native"
+import { useState } from "react"
+import { StyleSheet, Text, View } from "react-native"
 import * as Progress from 'react-native-progress'
 import Logo from "../components/Logo"
 import QuizButton from "../components/QuizButton"
-import { RootTabScreenProps } from "../types"
+import { RootStackParamList } from "../types"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 
 interface QuizScreenStepAnswer {
     label: string
@@ -47,32 +48,6 @@ const QuizScreenStep: React.FC<QuizScreenStepProps> = ({
     </View>
 }
 
-interface QuizScreenFinalStepProps {
-    onContinue?: () => void
-}
-
-const QuizScreenFinalStep: React.FC<QuizScreenFinalStepProps> = ({
-    onContinue,
-}) => {
-    const onPressHandler = () => {
-        if (onContinue) {
-            onContinue()
-        }
-    }
-
-    return <View>
-        <Text>
-
-            There are 100s of app out there but none has surpassed the trading so easy....with efforts of keeping it simple and realistic the app has given people support for learning and earning in the world of trading...I hope the app will enhance more UI & UX for latest updates and for freebies as well ^-^👍🏻
-        </Text>
-
-        <QuizButton
-            title="Continue"
-            onPress={onContinue}
-        />
-    </View>
-}
-
 interface QuizScreenQuestion {
     question: QuizScreenStepProps['question']
     answers: QuizScreenStepProps['answers']
@@ -104,12 +79,12 @@ const QuizScreenQuestions: QuizScreenQuestion[] = [
 
 type AnswersValuesMap = Map<number, QuizScreenStepAnswer['value']>
 
-const QuizScreen: React.FC<RootTabScreenProps<'Quiz'>> =  ({
-    navigation,
-}) => {
+const QuizScreen: React.FC = () => {
     const [progress, setProgress] = useState(1 / QuizScreenQuestions.length)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-    const [answers, setAnswers] = useState<AnswersValuesMap>(new Map())
+    const [answers] = useState<AnswersValuesMap>(new Map())
+
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
     const currentQuestion = QuizScreenQuestions[currentQuestionIndex]
     const isQuizFinished = currentQuestionIndex === QuizScreenQuestions.length - 1
@@ -120,7 +95,7 @@ const QuizScreen: React.FC<RootTabScreenProps<'Quiz'>> =  ({
         if (isQuizFinished) {
             console.log(answers)
 
-            navigation.navigate('SignalsScreen')
+            navigation.navigate('Root')
 
             return
         }

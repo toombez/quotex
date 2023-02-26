@@ -35,9 +35,10 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
-  return <Stack.Navigator>
+  return <Stack.Navigator initialRouteName='Quiz'>
         <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+        <Stack.Screen name="Quiz" component={QuizScreen} />
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
             <Stack.Screen name="Modal" component={ModalScreen} />
         </Stack.Group>
@@ -54,19 +55,10 @@ function BottomTabNavigator() {
     const colorScheme = useColorScheme();
 
     return <BottomTab.Navigator
-        initialRouteName="Quiz"
         screenOptions={{
-                headerShown: false,
-                // tabBarActiveTintColor: Colors[colorScheme].tint,
+            headerShown: false,
+            // tabBarActiveTintColor: Colors[colorScheme].tint,
         }}>
-        <BottomTab.Screen
-            name="Quiz"
-            component={QuizScreen}
-            options={{
-            title: 'Quiz',
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-            }}
-        />
         <BottomTab.Screen
             name="SignalsScreen"
             component={SignalsScreen}
