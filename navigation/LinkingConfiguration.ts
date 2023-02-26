@@ -22,6 +22,15 @@ const linking: LinkingOptions<RootStackParamList> = {
                     },
                 },
             },
+            Quiz: {
+                screens: {
+                    Quiz: {
+                        screens: {
+                            Quiz: 'quiz',
+                        },
+                    },
+                },
+            },
             Modal: 'modal',
             NotFound: '*',
         },

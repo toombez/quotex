@@ -1,4 +1,4 @@
-import { ViewProps } from "./Themed"
+import { ViewProps } from "react-native"
 import { useState } from 'react'
 import { ButtonProps, Pressable, StyleSheet, Text } from 'react-native'
 

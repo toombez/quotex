@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Text, StyleSheet } from "react-native"
-import { View, ViewProps } from "./Themed"
+import { View, ViewProps } from "react-native"
 
 const TimerSeparator: React.FC = () => {
     return <Text style={separatorStyle.separator}>

@@ -1,4 +1,4 @@
-import { View } from "../components/Themed"
+import { View } from "react-native"
 import Logo from "../components/Logo"
 import * as Progress from 'react-native-progress'
 import { StyleSheet, Text } from 'react-native'
